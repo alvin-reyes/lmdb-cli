@@ -49,9 +49,18 @@ func init() {
 	cmds["keys"] = commands.Keys{}
 	cmds["help"] = commands.Help{}
 	cmds["ascii"] = commands.Ascii{}
+	cmds["recover"] = commands.Recover{}
 }
 
 func main() {
+
+	//file, _ := os.OpenFile("./error_data/data.mdb", os.O_RDONLY, os.ModePerm)
+	//sc := bufio.NewScanner(file)
+	//for sc.Scan() {
+	//	//_ = sc.Text() // GET the line string
+	//	fmt.Print(sc.Text())
+	//}
+
 	flag.Parse()
 
 	if len(*pathFlag) == 0 && len(flag.Args()) == 1 {
@@ -79,10 +88,12 @@ func main() {
 	} else {
 		size = int64(float64(stat.Size()) * *growthFlag)
 	}
+
 	runOne := len(*commandFlag) != 0
 
 	context := core.NewContext(*pathFlag, size, *roFlag, *dir, *dbsFlag, os.Stdout)
 	defer context.Close()
+
 	if err := context.SwitchDB(*nameFlag); err != nil {
 		log.Fatal("could not select default database: ", err)
 	}

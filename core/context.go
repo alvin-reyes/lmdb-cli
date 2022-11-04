@@ -63,6 +63,7 @@ func NewContext(dbPath string, size int64, ro bool, dir bool, dbs int, writer io
 		log.Fatal("failed to open environment: ", err)
 	}
 	fmt.Println(env.Stat())
+
 	return &Context{
 		Env:      env,
 		path:     dbPath,
